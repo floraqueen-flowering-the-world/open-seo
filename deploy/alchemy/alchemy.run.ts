@@ -301,6 +301,10 @@ const dataEnv = {
   // Alchemy reconciles worker vars on every deploy, so the telemetry opt-out
   // must live in the env file — a dashboard-set var would be wiped.
   OPENSEO_TELEMETRY_DISABLED: optionalVar("OPENSEO_TELEMETRY_DISABLED"),
+  // A headless agent signs in with an Access service token, whose JWT carries no
+  // email; these map that one token to a workspace user.
+  ACCESS_SERVICE_TOKEN_CLIENT_ID: optionalVar("ACCESS_SERVICE_TOKEN_CLIENT_ID"),
+  ACCESS_SERVICE_TOKEN_EMAIL: optionalVar("ACCESS_SERVICE_TOKEN_EMAIL"),
 };
 
 export default Alchemy.Stack(
