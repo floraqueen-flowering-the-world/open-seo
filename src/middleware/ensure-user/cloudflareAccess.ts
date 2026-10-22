@@ -36,6 +36,16 @@ function getValidatedTeamDomain(teamDomain: string) {
   return result.origin;
 }
 
+// Access service tokens sign their JWT with the token's client id in
+// `common_name` and leave `sub`/`email` empty. Only the one configured token is
+// mapped, to the configured workspace user.
+function resolveServiceTokenIdentity(payload: JWTPayload) {
+  const clientId = env.ACCESS_SERVICE_TOKEN_CLIENT_ID?.trim();
+  const email = env.ACCESS_SERVICE_TOKEN_EMAIL?.trim();
+  if (!clientId || !email || payload.common_name !== clientId) return null;
+  return { userId: `service-token:${clientId}`, userEmail: email };
+}
+
 export async function resolveCloudflareAccessContext(
   headers: Headers,
 ): Promise<EnsuredUserContext> {
@@ -85,6 +95,11 @@ export async function resolveCloudflareAccessContext(
     console.error("Cloudflare Access token verification failed:", error);
 
     throw classifyAccessVerificationError(error);
+  }
+
+  const serviceToken = resolveServiceTokenIdentity(payload);
+  if (serviceToken) {
+    return resolveSharedWorkspaceContext(serviceToken.userId, serviceToken.userEmail);
   }
 
   const userId = typeof payload.sub === "string" ? payload.sub : null;
