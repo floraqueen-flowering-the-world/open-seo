@@ -9,6 +9,8 @@ import {
   Globe,
   LayoutDashboard,
   Link2,
+  ListChecks,
+  Map as MapIcon,
   MessageSquare,
   Network,
   Search,
@@ -109,6 +111,18 @@ const architectureNavItem = linkOptions({
   icon: Network,
 });
 
+const demandNavItem = linkOptions({
+  to: "/demand" as const,
+  label: "Demand",
+  icon: MapIcon,
+});
+
+const planNavItem = linkOptions({
+  to: "/plan" as const,
+  label: "Plan",
+  icon: ListChecks,
+});
+
 // Hidden for FloraQueen's plan; routes still work.
 const HIDDEN_NAV = new Set<string>([
   "/p/$projectId/saved",
@@ -132,7 +146,10 @@ function withoutHidden<T extends { items: readonly { to: string }[] }>(
 // Shown only when no project is selected; with a project, Agent setup lives in
 // the "AI Tools" group below.
 export const connectNavGroup = withoutHidden([
-  { label: "AI Tools", items: [aiNavItem, architectureNavItem] },
+  {
+    label: "AI Tools",
+    items: [aiNavItem, planNavItem, demandNavItem, architectureNavItem],
+  },
 ])[0];
 
 function getProjectNavItems(projectId: string) {
@@ -189,6 +206,8 @@ export function getProjectNavGroups(projectId: string) {
         byPath("/p/$projectId/reports"),
         byPath("/p/$projectId/context"),
         aiNavItem,
+        planNavItem,
+        demandNavItem,
         architectureNavItem,
       ],
     },

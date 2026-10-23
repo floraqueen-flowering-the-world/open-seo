@@ -21,6 +21,8 @@ import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppAiRouteImport } from './routes/_app/ai'
 import { Route as AppArchitectureRouteImport } from './routes/_app/architecture'
 import { Route as AppBillingRouteImport } from './routes/_app/billing'
+import { Route as AppDemandRouteImport } from './routes/_app/demand'
+import { Route as AppPlanRouteImport } from './routes/_app/plan'
 import { Route as AppProjectsRouteImport } from './routes/_app/projects'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppSupportRouteImport } from './routes/_app/support'
@@ -131,6 +133,16 @@ const AppArchitectureRoute = AppArchitectureRouteImport.update({
 const AppBillingRoute = AppBillingRouteImport.update({
   id: '/billing',
   path: '/billing',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppDemandRoute = AppDemandRouteImport.update({
+  id: '/demand',
+  path: '/demand',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPlanRoute = AppPlanRouteImport.update({
+  id: '/plan',
+  path: '/plan',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppProjectsRoute = AppProjectsRouteImport.update({
@@ -429,6 +441,8 @@ export interface FileRoutesByFullPath {
   '/ai': typeof AppAiRoute
   '/architecture': typeof AppArchitectureRoute
   '/billing': typeof AppBillingRoute
+  '/demand': typeof AppDemandRoute
+  '/plan': typeof AppPlanRoute
   '/projects': typeof AppProjectsRoute
   '/settings': typeof AppSettingsRouteWithChildren
   '/support': typeof AppSupportRoute
@@ -493,6 +507,8 @@ export interface FileRoutesByTo {
   '/ai': typeof AppAiRoute
   '/architecture': typeof AppArchitectureRoute
   '/billing': typeof AppBillingRoute
+  '/demand': typeof AppDemandRoute
+  '/plan': typeof AppPlanRoute
   '/projects': typeof AppProjectsRoute
   '/support': typeof AppSupportRoute
   '/sign-in': typeof AuthSignInRoute
@@ -555,6 +571,8 @@ export interface FileRoutesById {
   '/_app/ai': typeof AppAiRoute
   '/_app/architecture': typeof AppArchitectureRoute
   '/_app/billing': typeof AppBillingRoute
+  '/_app/demand': typeof AppDemandRoute
+  '/_app/plan': typeof AppPlanRoute
   '/_app/projects': typeof AppProjectsRoute
   '/_app/settings': typeof AppSettingsRouteWithChildren
   '/_app/support': typeof AppSupportRoute
@@ -622,6 +640,8 @@ export interface FileRouteTypes {
     | '/ai'
     | '/architecture'
     | '/billing'
+    | '/demand'
+    | '/plan'
     | '/projects'
     | '/settings'
     | '/support'
@@ -686,6 +706,8 @@ export interface FileRouteTypes {
     | '/ai'
     | '/architecture'
     | '/billing'
+    | '/demand'
+    | '/plan'
     | '/projects'
     | '/support'
     | '/sign-in'
@@ -747,6 +769,8 @@ export interface FileRouteTypes {
     | '/_app/ai'
     | '/_app/architecture'
     | '/_app/billing'
+    | '/_app/demand'
+    | '/_app/plan'
     | '/_app/projects'
     | '/_app/settings'
     | '/_app/support'
@@ -909,6 +933,20 @@ declare module '@tanstack/react-router' {
       path: '/billing'
       fullPath: '/billing'
       preLoaderRoute: typeof AppBillingRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/demand': {
+      id: '/_app/demand'
+      path: '/demand'
+      fullPath: '/demand'
+      preLoaderRoute: typeof AppDemandRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/plan': {
+      id: '/_app/plan'
+      path: '/plan'
+      fullPath: '/plan'
+      preLoaderRoute: typeof AppPlanRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_app/projects': {
@@ -1405,6 +1443,8 @@ interface AppRouteRouteChildren {
   AppAiRoute: typeof AppAiRoute
   AppArchitectureRoute: typeof AppArchitectureRoute
   AppBillingRoute: typeof AppBillingRoute
+  AppDemandRoute: typeof AppDemandRoute
+  AppPlanRoute: typeof AppPlanRoute
   AppProjectsRoute: typeof AppProjectsRoute
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppSupportRoute: typeof AppSupportRoute
@@ -1419,6 +1459,8 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppAiRoute: AppAiRoute,
   AppArchitectureRoute: AppArchitectureRoute,
   AppBillingRoute: AppBillingRoute,
+  AppDemandRoute: AppDemandRoute,
+  AppPlanRoute: AppPlanRoute,
   AppProjectsRoute: AppProjectsRoute,
   AppSettingsRoute: AppSettingsRouteWithChildren,
   AppSupportRoute: AppSupportRoute,

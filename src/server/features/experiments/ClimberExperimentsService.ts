@@ -3,8 +3,10 @@
 // climber_experiment_series_v). Not tenant data — the Climber deployment is
 // one self-hosted workspace — so it is gated only by being signed in.
 import { z } from "zod";
-import { AppError } from "@/server/lib/errors";
-import { getOptionalEnvValue } from "@/server/lib/runtime-env";
+import {
+  climberRestGet as restGet,
+  getClimberSupabaseConfig as getConfig,
+} from "@/server/lib/climberSupabase";
 import { EXPERIMENT_STATUSES } from "@/types/schemas/experiments";
 import { computeExperimentImpact } from "./experimentImpact";
 
@@ -36,34 +38,6 @@ const seriesRowSchema = z.object({
   treatment_clicks: z.number(),
   control_clicks: z.number(),
 });
-
-async function getConfig() {
-  const url = await getOptionalEnvValue("CLIMBER_SUPABASE_URL");
-  const key = await getOptionalEnvValue("CLIMBER_SUPABASE_KEY");
-  return url && key ? { url: url.replace(/\/+$/, ""), key } : null;
-}
-
-async function restGet<T>(
-  config: { url: string; key: string },
-  path: string,
-  schema: z.ZodType<T>,
-): Promise<T[]> {
-  const response = await fetch(`${config.url}/rest/v1/${path}`, {
-    method: "GET",
-    headers: {
-      apikey: config.key,
-      Authorization: `Bearer ${config.key}`,
-      Accept: "application/json",
-    },
-  });
-  if (!response.ok) {
-    throw new AppError(
-      "INTERNAL_ERROR",
-      `Climber Supabase read failed (${response.status})`,
-    );
-  }
-  return z.array(schema).parse(await response.json());
-}
 
 const toExperiment = (row: z.infer<typeof experimentRowSchema>) => ({
   id: row.id,
