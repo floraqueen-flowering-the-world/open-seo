@@ -91,6 +91,9 @@ declare namespace Cloudflare {
     OPENROUTER_API_KEY?: string;
     // Optional OpenRouter model slug override (defaults in openrouter.ts).
     OPENROUTER_MODEL?: string;
+    // Read-only PostgREST access to Climber's experiment views (self-host).
+    CLIMBER_SUPABASE_URL?: string;
+    CLIMBER_SUPABASE_KEY?: string;
   }
 }
 

@@ -305,6 +305,9 @@ const dataEnv = {
   // email; these map that one token to a workspace user.
   ACCESS_SERVICE_TOKEN_CLIENT_ID: optionalVar("ACCESS_SERVICE_TOKEN_CLIENT_ID"),
   ACCESS_SERVICE_TOKEN_EMAIL: optionalVar("ACCESS_SERVICE_TOKEN_EMAIL"),
+  // Climber's Supabase project, read by the Experiments page (GETs on two views).
+  CLIMBER_SUPABASE_URL: optionalVar("CLIMBER_SUPABASE_URL"),
+  CLIMBER_SUPABASE_KEY: optionalSecret("CLIMBER_SUPABASE_KEY"),
 };
 
 export default Alchemy.Stack(

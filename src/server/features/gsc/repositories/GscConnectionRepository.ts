@@ -15,6 +15,15 @@ async function getByProjectId(
   return rows[0] ?? null;
 }
 
+async function listByOrganizationId(
+  organizationId: string,
+): Promise<GscConnection[]> {
+  return db
+    .select()
+    .from(gscConnections)
+    .where(eq(gscConnections.organizationId, organizationId));
+}
+
 async function upsert(input: {
   projectId: string;
   organizationId: string;
@@ -57,6 +66,7 @@ async function deleteByProjectId(projectId: string): Promise<void> {
 
 export const GscConnectionRepository = {
   getByProjectId,
+  listByOrganizationId,
   upsert,
   deleteByProjectId,
 };
