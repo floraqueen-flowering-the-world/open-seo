@@ -2,7 +2,6 @@
 // its natural peers day by day, the same page on each domain, health checks,
 // the field diff, snapshots and decisions.
 import { z } from "zod";
-import { AppError } from "@/server/lib/errors";
 import {
   climberRestGet,
   climberRestGetAll,
@@ -305,7 +304,7 @@ export async function getScorecard(experimentId: number) {
     `seo_experiments?select=${LIST_COLUMNS},locale,old_value,new_value,peer_cluster_ids,peer_cohort_key,baseline,result&id=eq.${experimentId}&source=eq.climber`,
     fullRowSchema,
   );
-  if (!row) throw new AppError("NOT_FOUND", "Experiment not found");
+  if (!row) return null;
 
   const result = resultSchema.nullable().catch(null).parse(row.result);
   const baseline = baselineSchema.nullable().catch(null).parse(row.baseline);

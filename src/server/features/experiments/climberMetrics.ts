@@ -124,8 +124,7 @@ export function metricRows(
     role: "guardrail",
     metric: "Average position vs peers",
     before: "—",
-    after:
-      pos === null ? "—" : `${pos > 0 ? "+" : ""}${fmt(pos, 1)} positions`,
+    after: pos === null ? "—" : `${pos > 0 ? "+" : ""}${fmt(pos, 1)} positions`,
     reference: "peers' median move",
     lift: null,
     lo: null,

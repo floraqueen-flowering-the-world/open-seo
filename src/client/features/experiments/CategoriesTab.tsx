@@ -117,8 +117,9 @@ export function CategoriesTab() {
       <p className="max-w-3xl text-sm text-muted-foreground">
         You decide kinds of change, never single pages. While a destructive kind
         is blocked, agents list what they would do under it here. Approve it and
-        it runs on its own from the next night, page by page, with the same
-        snapshots and automatic reverts as content changes.
+        agents run it on their own, page by page, as soon as they have a
+        playbook for it, with the same snapshots and automatic reverts as
+        content changes.
         {data.holidayFreezeDays
           ? ` Approved destructive kinds still wait on pages with seasonal demand within ${data.holidayFreezeDays} days of their peak.`
           : ""}

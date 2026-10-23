@@ -10,6 +10,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/client/components/ui/card";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/client/components/ui/empty";
 import { Skeleton } from "@/client/components/ui/skeleton";
 import {
   Table,
@@ -58,6 +64,7 @@ export function Scorecard({
     queryKey: ["climberScorecard", experimentId],
     queryFn: () => getClimberScorecard({ data: { experimentId } }),
     staleTime: 5 * 60 * 1000,
+    retry: false,
   });
 
   return (
@@ -80,7 +87,16 @@ export function Scorecard({
         />
       ) : query.data ? (
         <ScorecardBody data={query.data} />
-      ) : null}
+      ) : (
+        <Empty variant="dashed">
+          <EmptyHeader>
+            <EmptyTitle>Experiment not found</EmptyTitle>
+            <EmptyDescription>
+              No Climber experiment has the id {experimentId}.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      )}
     </div>
   );
 }

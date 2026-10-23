@@ -280,6 +280,7 @@ export function ProgramTab({
                   <ChartXAxis dataKey="night" tickFormatter={formatDay} />
                   <ChartYAxis
                     domain={[0, 0.3]}
+                    ticks={[0, 0.1, 0.2, 0.3]}
                     tickFormatter={(v: number) => formatRate(v, 0)}
                   />
                   <ChartTooltip
