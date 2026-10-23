@@ -5,10 +5,12 @@ import {
   ChartLine,
   ClipboardCheck,
   FileText,
+  FlaskConical,
   Globe,
   LayoutDashboard,
   Link2,
   MessageSquare,
+  Network,
   Search,
   TrendingUp,
 } from "lucide-react";
@@ -76,6 +78,11 @@ const projectNavItems = [
     icon: MessageSquare,
   },
   {
+    to: "/p/$projectId/experiments" as const,
+    label: "Experiments",
+    icon: FlaskConical,
+  },
+  {
     to: "/p/$projectId/reports" as const,
     label: "Reports",
     icon: FileText,
@@ -95,12 +102,38 @@ const aiNavItem = linkOptions({
   icon: Bot,
 });
 
+// Workspace-level, like Agent setup: one page for every project.
+const architectureNavItem = linkOptions({
+  to: "/architecture" as const,
+  label: "Architecture",
+  icon: Network,
+});
+
+// Hidden for FloraQueen's plan; routes still work.
+const HIDDEN_NAV = new Set<string>([
+  "/p/$projectId/saved",
+  "/p/$projectId/ai-visibility/research",
+  "/p/$projectId/prompt-explorer",
+  "/p/$projectId/reports",
+  "/ai",
+]);
+
+function withoutHidden<T extends { items: readonly { to: string }[] }>(
+  groups: T[],
+) {
+  return groups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => !HIDDEN_NAV.has(item.to)),
+    }))
+    .filter((group) => group.items.length > 0);
+}
+
 // Shown only when no project is selected; with a project, Agent setup lives in
 // the "AI Tools" group below.
-export const connectNavGroup = {
-  label: "AI Tools",
-  items: [aiNavItem],
-};
+export const connectNavGroup = withoutHidden([
+  { label: "AI Tools", items: [aiNavItem, architectureNavItem] },
+])[0];
 
 function getProjectNavItems(projectId: string) {
   return linkOptions(
@@ -119,7 +152,7 @@ export function getProjectNavGroups(projectId: string) {
   const byPath = (path: (typeof projectNavItems)[number]["to"]) =>
     all.find((i) => i.to === path)!;
 
-  return [
+  return withoutHidden([
     {
       label: "Overview",
       items: [byPath("/p/$projectId")],
@@ -147,6 +180,7 @@ export function getProjectNavGroups(projectId: string) {
         byPath("/p/$projectId/rank-tracking"),
         byPath("/p/$projectId/saved"),
         byPath("/p/$projectId/audit"),
+        byPath("/p/$projectId/experiments"),
       ],
     },
     {
@@ -155,9 +189,10 @@ export function getProjectNavGroups(projectId: string) {
         byPath("/p/$projectId/reports"),
         byPath("/p/$projectId/context"),
         aiNavItem,
+        architectureNavItem,
       ],
     },
-  ];
+  ]);
 }
 
 export const dataforseoHelpLinkOptions = linkOptions({
