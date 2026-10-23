@@ -5,6 +5,7 @@ import {
   ChartLine,
   ClipboardCheck,
   FileText,
+  FlaskConical,
   Globe,
   LayoutDashboard,
   Link2,
@@ -74,6 +75,11 @@ const projectNavItems = [
     to: "/p/$projectId/prompt-explorer" as const,
     label: "Prompt Explorer",
     icon: MessageSquare,
+  },
+  {
+    to: "/p/$projectId/experiments" as const,
+    label: "Experiments",
+    icon: FlaskConical,
   },
   {
     to: "/p/$projectId/reports" as const,
@@ -147,6 +153,7 @@ export function getProjectNavGroups(projectId: string) {
         byPath("/p/$projectId/rank-tracking"),
         byPath("/p/$projectId/saved"),
         byPath("/p/$projectId/audit"),
+        byPath("/p/$projectId/experiments"),
       ],
     },
     {
